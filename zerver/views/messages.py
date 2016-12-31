@@ -929,7 +929,8 @@ def update_message_backend(request, user_profile,
         links_for_embed |= message.links_for_preview
 
     do_update_message(user_profile, message, subject, propagate_mode, content, rendered_content)
-    if links_for_embed and getattr(settings, 'INLINE_URL_EMBED_PREVIEW', None):
+    if (links_for_embed and getattr(settings, 'INLINE_URL_EMBED_PREVIEW', None)
+            and not user_profile.is_bot):
         event_data = {
             'message_id': message.id,
             'message_content': message.content,
